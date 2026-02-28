@@ -1,10 +1,7 @@
 package org.example.bogo.domain.report.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.bogo.domain.project.entity.Project;
 
 import java.time.LocalDateTime;
@@ -17,9 +14,9 @@ public class Report {
     @Id
     private Long id; // 프로젝트의 식별키와 동일한 값을 가짐
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId // Report의 id를 Project의 id로 사용
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Lob
@@ -31,6 +28,5 @@ public class Report {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
 
 }

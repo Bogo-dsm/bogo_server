@@ -20,4 +20,14 @@ public class Constrait {
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false, columnDefinition = "json")
     private Map<String, Object> questions;
+
+
+    @Builder
+    public Constrait(String requiredFeature, Map<String, Object> questions) {
+        this.id = 1L;
+        this.requiredFeature = requiredFeature;
+        this.questions = questions;
+    }
+
+
 }
