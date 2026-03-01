@@ -33,4 +33,6 @@ spring:
                     connectiontimeout: ${SPRING_MAIL_SMTP_CONNECTIONTIMEOUT}
                     timeout: ${SPRING_MAIL_SMTP_TIMEOUT}
                     writetimeout: ${SPRING_MAIL_SMTP_WRITETIMEOUT}
-            auth-code-expiration-millis: ${AUTH_CODE_EXPIRATION_MILLIS}
+
+auth:
+    code-expiration-millis: ${AUTH_CODE_EXPIRATION_MILLIS}

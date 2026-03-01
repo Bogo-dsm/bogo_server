@@ -50,7 +50,7 @@ public class MailService {
 
             javaMailSender.send(message);
         } catch (MessagingException | MailException e) {
-//            throw new SimvexException(GlobalErrorCode.INTERNAL_SERVER_ERROR, "이메일 전송에 실패했습니다.");
+            //todo GlobalException이 생기면 추후에 처리
         }
     }
 }
