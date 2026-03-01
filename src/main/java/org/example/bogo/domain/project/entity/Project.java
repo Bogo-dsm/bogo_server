@@ -1,10 +1,7 @@
 package org.example.bogo.domain.project.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.bogo.domain.member.entity.Member;
 import org.example.bogo.domain.template.entity.Template;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -39,5 +36,13 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "template_id")
     private Template template;
-    
+
+    @Builder
+    public Project(String title, LocalDateTime createdAt, Map<String, Object> answers, Member member, Template template) {
+        this.title = title;
+        this.createdAt = createdAt;
+        this.answers = answers;
+        this.member = member;
+        this.template = template;
+    }
 }
