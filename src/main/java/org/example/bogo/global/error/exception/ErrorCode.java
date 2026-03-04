@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
-@AllArgsConstructor
-public enum ErrorCode {
+public interface ErrorCode {
 
-    TEMPLATE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 ID의 템플릿이 존재하지 않습니다.");
+    HttpStatus getStatus();
 
-    private final HttpStatus status;
-    private final String message;
+    String getCode();
+
+    String getMessage();
 }

@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Table(name = "Member")
 @Getter
 public class Member {
 
@@ -19,9 +20,6 @@ public class Member {
     @Column(nullable = false, name = "password", length = 255)
     private String password;
 
-    @Column(nullable = false, name = "phone", unique = true, length = 15)
-    private String phone;
-
     @Column(nullable = false, name = "email", unique = true, length = 255)
     private String email;
 
@@ -30,12 +28,12 @@ public class Member {
     private Role role;
 
     @Builder
-    public Member(String nickname, String password, String phone, String email) {
+    public Member(String nickname, String password, String email) {
         this.nickname = nickname;
         this.password = password;
-        this.phone = phone;
         this.email = email;
         this.role = Role.ROLE_USER;
     }
+
 
 }
