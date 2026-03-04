@@ -6,6 +6,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Map;
+import java.util.Objects;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,8 +25,8 @@ public class Constrait {
 
     // 관리자가 이후에 수정할 제약조건 사항
     public void setConstrait(String requiredFeature, Map<String, Object> questions) {
-        this.requiredFeature = requiredFeature;
-        this.questions = questions;
+        this.requiredFeature = Objects.requireNonNull(requiredFeature, "requiredFeature must not be null");
+        this.questions = Objects.requireNonNull(questions, "questions must not be null");
     }
 
     // 초기에 한번만 사용될 제약조건 생성 builder
