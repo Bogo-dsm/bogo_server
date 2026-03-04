@@ -4,16 +4,16 @@ import lombok.Getter;
 
 
 @Getter
-public class CustomException extends RuntimeException {
+public class CustomBogoException extends RuntimeException {
     ErrorCode errorCode;
     String message;
 
-    public CustomException(ErrorCode errorCode, String message) {
+    public CustomBogoException(ErrorCode errorCode, String message) {
         super(message);
         this.message=message;
         this.errorCode = errorCode;
     }
-    public CustomException(ErrorCode errorCode) {
+    public CustomBogoException(ErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 }
