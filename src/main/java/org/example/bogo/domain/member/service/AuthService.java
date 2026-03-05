@@ -7,7 +7,6 @@ import org.example.bogo.domain.member.presentation.dto.request.LoginRequest;
 import org.example.bogo.domain.member.presentation.dto.request.SignupRequest;
 import org.example.bogo.domain.member.presentation.dto.request.VerifyCodeRequest;
 import org.example.bogo.domain.member.presentation.dto.request.VerifyCodeSendRequest;
-import org.example.bogo.domain.member.presentation.dto.response.LoginResponse;
 import org.example.bogo.domain.member.presentation.dto.response.TokenResponse;
 import org.example.bogo.domain.member.repository.MemberRepository;
 import org.example.bogo.global.error.exception.BogoException;
@@ -58,6 +57,7 @@ public class AuthService {
         mailService.sendVerificationEmail(member.getEmail(), code);
     }
 
+    @Transactional
     public void verify(VerifyCodeRequest data) {
         String savedCode = redisService.getEmailCode(data.email());
         if(savedCode == null || !savedCode.equals(data.code())) {
