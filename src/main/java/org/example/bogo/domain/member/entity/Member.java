@@ -27,7 +27,7 @@ public class Member {
     @Column(nullable = false)
     private Role role;
 
-    @Column(name = "email_verifyed")
+    @Column(name = "email_verified")
     private boolean emailVerified = false;
 
     @Builder
