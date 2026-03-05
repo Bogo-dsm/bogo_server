@@ -5,7 +5,7 @@ spring:
     jpa:
         database: postgresql
         hibernate:
-            ddl-auto: ${JPA_DDL_AUTO:update}
+            ddl-auto: ${JPA_DDL_AUTO:create}
         open-in-view: false
         generate-ddl: true
         properties:
@@ -18,6 +18,15 @@ spring:
         url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_NAME}
         username: ${DB_USERNAME}
         password: ${PASSWORD}
+
+    data:
+        redis:
+            host: ${REDIS_HOST:localhost}
+            port: ${REDIS_PORT:6379}
+            lettuce:
+              pool:
+                  max-active: 8
+                  max-idle: 8
 
     mail:
         host: smtp.gmail.com

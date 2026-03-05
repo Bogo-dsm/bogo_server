@@ -16,8 +16,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String memberName) throws UsernameNotFoundException {
-        Member member = memberRepository.findEmailByMembername(memberName)
+    public UserDetails loadUserByUsername(String nickName) throws UsernameNotFoundException {
+        Member member = memberRepository.findEmailByNickname(nickName)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
         return CustomUserDetails.from(member);
     }
@@ -29,4 +29,3 @@ public class CustomUserDetailsService implements UserDetailsService {
         return CustomUserDetails.from(member);
     }
 }
-

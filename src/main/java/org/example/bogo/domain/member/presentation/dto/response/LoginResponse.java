@@ -1,7 +1,7 @@
 package org.example.bogo.domain.member.presentation.dto.response;
 
-public record JoinResponse (
+public record LoginResponse<T>(
         String status,
         String message,
-        String name
-) { }
+        T data
+) {}

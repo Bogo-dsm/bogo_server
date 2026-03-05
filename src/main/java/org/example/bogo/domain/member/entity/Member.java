@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "Member")
+@Table(name = "member")
 @Getter
 public class Member {
 
@@ -14,7 +14,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "nickname", unique = true, length = 50)
+    @Column(nullable = false, name = "nickname", length = 50)
     private String nickname;
 
     @Column(nullable = false, name = "password", length = 255)
@@ -27,13 +27,24 @@ public class Member {
     @Column(nullable = false)
     private Role role;
 
+    @Column(name = "email_verifyed")
+    private boolean emailVerified = false;
+
     @Builder
     public Member(String nickname, String password, String email) {
         this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.role = Role.ROLE_USER;
+        this.emailVerified = false;
     }
 
+    public void makeEmailVerified() {
+        this.emailVerified = true;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
 
 }

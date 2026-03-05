@@ -50,6 +50,20 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String generateRefreshToken(Long memberId, String email) {
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + properties.getRefreshTokenExpiration()); // 예: 7일
+
+        return Jwts.builder()
+                .setSubject(String.valueOf(memberId))
+                .setIssuedAt(now)
+                .setExpiration(expiry)
+                .claim(CLAIM_TYPE, "REFRESH")
+                .claim("email", email)
+                .signWith(key)
+                .compact();
+    }
+
     public boolean validateToken(String token) {
         try {
             parseClaims(token);
