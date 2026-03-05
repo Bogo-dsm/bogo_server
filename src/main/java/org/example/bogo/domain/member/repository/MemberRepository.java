@@ -8,11 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findEmailByNickname(String nickname);
+    Optional<Member> findByNickname(String nickname);
 
     boolean existsByEmail(String email);
 
     Optional<Member> findByEmail(@NotBlank @Size(max = 50) String email);
 
-    Optional<Member> findMemberByEmail(String email);
+    Optional<Member> findMemberByEmail(@NotBlank @Size(max = 50) String nickname);
 }

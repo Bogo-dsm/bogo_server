@@ -79,12 +79,18 @@ public class AuthService {
             throw new BogoException(GlobalErrorCode.INVALID_CREDENTIALS);
         }
 
-        if (member.isEmailVerified()) {
+        if (!member.isEmailVerified()) {
             throw new BogoException(GlobalErrorCode.EMAIL_NOT_VERIFIED);
         }
 
-        String accessToken = jwtTokenProvider.generateAccessToken(member.getId(), member.getEmail());
-        String refreshToken = jwtTokenProvider.generateRefreshToken(member.getId(), member.getEmail());
+        String accessToken = jwtTokenProvider.generateAccessToken(
+                member.getId(),
+                member.getEmail(),
+                String.valueOf(member.getRole()));
+
+        String refreshToken = jwtTokenProvider.generateRefreshToken(
+                member.getId(),
+                member.getEmail());
 
         redisService.saveRefreshToken(String.valueOf(member.getId()), refreshToken, 14); // 14일 예시
 

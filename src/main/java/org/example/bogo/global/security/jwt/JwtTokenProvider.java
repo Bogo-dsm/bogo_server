@@ -35,7 +35,7 @@ public class JwtTokenProvider {
         );
     }
 
-    public String generateAccessToken(Long memberId, String email) {
+    public String generateAccessToken(Long memberId, String email, String role) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + properties.getAccessTokenExpiration());
 
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
                 .setExpiration(expiry)
                 .claim(CLAIM_TYPE, TOKEN_TYPE_ACCESS)
                 .claim("email", email)
-                .claim(CLAIM_AUTHORITIES, java.util.List.of("ROLE_USER"))
+                .claim(CLAIM_AUTHORITIES, java.util.List.of(role))
                 .signWith(key)
                 .compact();
     }
@@ -93,7 +93,11 @@ public class JwtTokenProvider {
     }
 
     public Long getMemberId(String token) {
-        return Long.parseLong(parseClaims(token).getSubject());
+        try {
+            return Long.parseLong(parseClaims(token).getSubject());
+        } catch (NumberFormatException e) {
+            throw new JwtException("잘못된 토큰 형식입니다.", e);
+        }
     }
 
     private Claims parseClaims(String token) {
