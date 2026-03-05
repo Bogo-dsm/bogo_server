@@ -30,7 +30,7 @@ public enum GlobalErrorCode implements ErrorCode {
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "GLB_500", "서버 오류가 발생했습니다."),
-    EMAIL_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GLB_500", "이메일 생성중 오류가 발생했습니다.");
+    EMAIL_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GLB_500", "이메일 전송에 실패했습니다.");
 
     private final HttpStatus status;
     private final String code;
