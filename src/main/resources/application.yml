@@ -1,0 +1,48 @@
+spring:
+    application:
+        name: BoGo
+
+    jpa:
+        database: postgresql
+        hibernate:
+            ddl-auto: ${JPA_DDL_AUTO}
+        open-in-view: false
+        generate-ddl: true
+        properties:
+            hibernate:
+                format_sql: true
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_NAME}
+        username: ${DB_USERNAME}
+        password: ${PASSWORD}
+
+    data:
+        redis:
+            host: ${REDIS_HOST:localhost}
+            port: ${REDIS_PORT:6379}
+            lettuce:
+              pool:
+                  max-active: 8
+                  max-idle: 8
+
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: ${SPRING_MAIL_USERNAME}
+        password: ${SPRING_MAIL_PASSWORD}
+        properties:
+            mail:
+                smtp:
+                    auth: ${SPRING_MAIL_SMTP_AUTH}
+                    starttls:
+                        enable: ${SPRING_MAIL_SMTP_STARTTLS_ENABLE}
+                        required: ${SPRING_MAIL_SMTP_STARTTLS_REQUIRED}
+                    connectiontimeout: ${SPRING_MAIL_SMTP_CONNECTIONTIMEOUT}
+                    timeout: ${SPRING_MAIL_SMTP_TIMEOUT}
+                    writetimeout: ${SPRING_MAIL_SMTP_WRITETIMEOUT}
+
+auth:
+    code-expiration-millis: ${AUTH_CODE_EXPIRATION_MILLIS}

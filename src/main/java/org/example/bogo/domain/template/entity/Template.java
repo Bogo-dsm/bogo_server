@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Table(name = "template")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Template {

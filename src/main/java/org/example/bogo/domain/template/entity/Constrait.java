@@ -11,6 +11,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "constrait")
 public class Constrait {
 
     @Id
