@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -45,6 +46,6 @@ public class Template {
         this.description = description;
         this.tone = tone;
         this.character = character;
-        this.constrait = constrait;
+        this.constrait = Objects.requireNonNull(constrait, "Constrait must not be null");;
     }
 }
