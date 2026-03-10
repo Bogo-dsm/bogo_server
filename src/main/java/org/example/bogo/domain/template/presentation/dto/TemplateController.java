@@ -1,5 +1,6 @@
 package org.example.bogo.domain.template.presentation.dto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.bogo.domain.template.presentation.dto.request.AddTemplateRequest;
 import org.example.bogo.domain.template.presentation.dto.response.SearchDataResponse;
@@ -19,7 +20,7 @@ public class TemplateController {
 
     // api key 로 검증 (AI to BE)
     @PostMapping("/create")
-    public ResponseEntity<APIResponse<?>> create(@RequestBody AddTemplateRequest data) {
+    public ResponseEntity<APIResponse<?>> create(@Valid @RequestBody AddTemplateRequest data) {
         return ResponseEntity.ok()
                 .body(templateService.create(data));
     }

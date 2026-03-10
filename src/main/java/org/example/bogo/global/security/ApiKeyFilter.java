@@ -39,8 +39,8 @@ public class ApiKeyFilter extends OncePerRequestFilter{
             return;
         }
         UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken("ROLE_USER", null,
-                        AuthorityUtils.createAuthorityList("ROLE_ADMIN")); // 컨트롤러의 ROLE_ADMIN과 매칭
+                new UsernamePasswordAuthenticationToken("api-key-user", null,
+                        AuthorityUtils.createAuthorityList("ROLE_ADMIN"));
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(request, response);

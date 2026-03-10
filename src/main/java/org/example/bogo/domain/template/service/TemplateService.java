@@ -1,12 +1,15 @@
 package org.example.bogo.domain.template.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.bogo.domain.member.repository.MemberRepository;
+import org.example.bogo.domain.template.entity.Constrait;
 import org.example.bogo.domain.template.entity.SearchTemplate;
 import org.example.bogo.domain.template.entity.Template;
 import org.example.bogo.domain.template.exception.TemplateErrorCode;
 import org.example.bogo.domain.template.presentation.dto.request.AddTemplateRequest;
 import org.example.bogo.domain.template.presentation.dto.response.SearchDataResponse;
+import org.example.bogo.domain.template.repository.ConstraitRepository;
 import org.example.bogo.domain.template.repository.SearchRepository;
 import org.example.bogo.domain.template.repository.TemplateRepository;
 import org.example.bogo.global.APIResponse;
@@ -15,6 +18,7 @@ import org.example.bogo.global.security.userdetails.CustomUserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,14 +28,19 @@ public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final SearchRepository searchRepository;
+    private final ConstraitRepository constraitRepository;
 
     public APIResponse<?> create(AddTemplateRequest data) {
+        Constrait sharedConstrait = constraitRepository.findById(1L)
+                .orElseThrow(() -> new BogoException(TemplateErrorCode.CONSTRAIT_NOTFOUND));
+
 
         Template newTemplate = Template.builder()
                 .name(data.name())
                 .description(data.description())
                 .tone(data.tone())
                 .character(data.character())
+                .constrait(sharedConstrait)
                 .build();
 
         templateRepository.save(newTemplate);
@@ -46,7 +55,7 @@ public class TemplateService {
     public APIResponse<List<SearchDataResponse>> search(String keyword) {
 
         List<SearchTemplate> templateList = searchRepository.findByTitle(keyword)
-                .orElseThrow(() -> new BogoException(TemplateErrorCode.TEMPLATE_NOTFOUND));
+                .orElse(Collections.emptyList());
 
         List<SearchDataResponse> response = templateList.stream()
                 .map(template -> new SearchDataResponse(

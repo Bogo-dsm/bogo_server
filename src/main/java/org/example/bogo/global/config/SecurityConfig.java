@@ -2,6 +2,7 @@ package org.example.bogo.global.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.bogo.global.security.ApiKeyFilter;
 import org.example.bogo.global.security.filter.JwtAuthenticationFilter;
 import org.example.bogo.global.security.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final ApiKeyFilter apiKeyFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,6 +43,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 public record SearchDataResponse(
-        @JsonProperty(namespace = "template_id")
+        @JsonProperty("template_id")
         Long templateId,
-        @JsonProperty(namespace = "template_name")
+        @JsonProperty("template_name")
         String templateName,
-        @JsonProperty(namespace = "created_at")
+        @JsonProperty("created_at")
         LocalDateTime createdAt,
-        @JsonProperty(namespace = "description")
+        @JsonProperty("description")
         String description
 ) {
 }

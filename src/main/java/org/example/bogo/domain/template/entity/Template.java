@@ -40,12 +40,11 @@ public class Template {
     private LocalDateTime createdAt;
 
     @Builder
-    public Template(String name, String description, String tone, String character) {
+    public Template(String name, String description, String tone, String character, Constrait constrait) {
         this.name = name;
         this.description = description;
         this.tone = tone;
         this.character = character;
-        this.createdAt = LocalDateTime.now();
-        this.constrait = new Constrait();
+        this.constrait = constrait;
     }
 }
