@@ -7,7 +7,7 @@ import org.example.bogo.domain.member.presentation.dto.request.SignupRequest;
 import org.example.bogo.domain.member.presentation.dto.request.VerifyCodeRequest;
 import org.example.bogo.domain.member.presentation.dto.request.VerifyCodeSendRequest;
 import org.example.bogo.domain.member.presentation.dto.response.JoinResponse;
-import org.example.bogo.domain.member.presentation.dto.response.LoginResponse;
+import org.example.bogo.global.APIResponse;
 import org.example.bogo.domain.member.presentation.dto.response.TokenResponse;
 import org.example.bogo.domain.member.presentation.dto.response.VerifyResponse;
 import org.example.bogo.domain.member.service.AuthService;
@@ -47,10 +47,10 @@ public class AuthController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<APIResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
         TokenResponse tokenResponse = authService.login(request);
-        LoginResponse<TokenResponse> response =
-                new LoginResponse<>("SUCCESS", "로그인 성공", tokenResponse);
+        APIResponse<TokenResponse> response =
+                new APIResponse<>("SUCCESS", "로그인 성공", tokenResponse);
         return ResponseEntity.ok().body(response);
     }
 }

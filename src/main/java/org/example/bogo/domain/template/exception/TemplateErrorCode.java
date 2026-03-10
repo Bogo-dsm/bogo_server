@@ -3,8 +3,13 @@ package org.example.bogo.domain.template.exception;
 import org.example.bogo.global.error.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 
-public class TemplateErrorCode implements ErrorCode {
+public enum TemplateErrorCode implements ErrorCode {
 
+    // 403
+    NOT_AN_ADMIN(HttpStatus.FORBIDDEN, "ADMIN_403", "관리자 권한이 없습니다."),
+
+    // 404
+    TEMPLATE_NOTFOUND(HttpStatus.NOT_FOUND, "TEM_404", "템플릿이 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String code;

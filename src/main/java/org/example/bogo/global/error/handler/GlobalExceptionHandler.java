@@ -3,6 +3,7 @@ package org.example.bogo.global.error.handler;
 import org.example.bogo.global.error.exception.BogoException;
 import org.example.bogo.global.error.exception.ErrorCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,4 +24,10 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResponseEntity.badRequest().body(message);
+        }
 }

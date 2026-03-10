@@ -13,6 +13,12 @@ spring:
                 format_sql: true
                 dialect: org.hibernate.dialect.PostgreSQLDialect
 
+    elasticsearch:
+        uris: http://localhost:9200
+
+    r2:
+        public-url: ${R2_PATH}
+
     datasource:
         driver-class-name: org.postgresql.Driver
         url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_NAME}
@@ -46,3 +52,6 @@ spring:
 
 auth:
     code-expiration-millis: ${AUTH_CODE_EXPIRATION_MILLIS}
+
+api:
+    key: ${API_KEY}
