@@ -49,9 +49,7 @@ public class TemplateService {
     }
 
     public APIResponse<List<SearchDataResponse>> search(String keyword) {
-
-        List<SearchTemplate> templateList = searchRepository.findByTitle(keyword)
-                .orElse(Collections.emptyList());
+        List<SearchTemplate> templateList = searchRepository.findByTitle(keyword);
 
         List<SearchDataResponse> response = templateList.stream()
                 .map(template -> new SearchDataResponse(
@@ -68,6 +66,7 @@ public class TemplateService {
                 response
         );
     }
+
 
     public APIResponse<List<SearchDataResponse>> all() {
         List<Template> templateList = templateRepository.findAll();

@@ -3,9 +3,9 @@ package org.example.bogo.domain.template.repository;
 import org.example.bogo.domain.template.entity.SearchTemplate;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import java.util.List;
-import java.util.Optional;
+
 
 public interface SearchRepository extends ElasticsearchRepository<SearchTemplate, Long> {
-    Optional<List<SearchTemplate>> findByTitle(String title);
+    List<SearchTemplate> findByTitle(String title);
 
 }

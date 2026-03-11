@@ -1,6 +1,7 @@
 package org.example.bogo.domain.template.presentation.dto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.example.bogo.domain.template.presentation.dto.request.AddTemplateRequest;
 import org.example.bogo.domain.template.presentation.dto.response.SearchDataResponse;
@@ -27,7 +28,7 @@ public class TemplateController {
 
     // 검색 (elasticsearch 사용)
     @GetMapping("/search")
-    public ResponseEntity<APIResponse<List<SearchDataResponse>>> search(@RequestParam String keyword) {
+    public ResponseEntity<APIResponse<List<SearchDataResponse>>> search(@RequestParam @NotBlank(message = "검색어는 비어있을 수 없습니다.") String keyword) {
         return ResponseEntity.ok()
                 .body(templateService.search(keyword));
     }
