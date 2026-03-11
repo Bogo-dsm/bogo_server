@@ -33,19 +33,19 @@ public class Template {
     private String character;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "constrait_id", nullable = false)
-    private Constrait constrait;
+    @JoinColumn(name = "constraint_id", nullable = false)
+    private Constraint constraint;
 
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Builder
-    public Template(String name, String description, String tone, String character, Constrait constrait) {
+    public Template(String name, String description, String tone, String character, Constraint constraint) {
         this.name = name;
         this.description = description;
         this.tone = tone;
         this.character = character;
-        this.constrait = Objects.requireNonNull(constrait, "Constrait must not be null");;
+        this.constraint = Objects.requireNonNull(constraint, "Constrait must not be null");
     }
 }

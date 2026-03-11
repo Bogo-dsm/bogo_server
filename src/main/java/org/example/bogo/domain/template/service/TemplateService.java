@@ -1,23 +1,19 @@
 package org.example.bogo.domain.template.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.bogo.domain.member.repository.MemberRepository;
-import org.example.bogo.domain.template.entity.Constrait;
+import org.example.bogo.domain.template.entity.Constraint;
 import org.example.bogo.domain.template.entity.SearchTemplate;
 import org.example.bogo.domain.template.entity.Template;
 import org.example.bogo.domain.template.exception.TemplateErrorCode;
 import org.example.bogo.domain.template.presentation.dto.request.AddTemplateRequest;
 import org.example.bogo.domain.template.presentation.dto.response.SearchDataResponse;
-import org.example.bogo.domain.template.repository.ConstraitRepository;
+import org.example.bogo.domain.template.repository.ConstraintRepository;
 import org.example.bogo.domain.template.repository.SearchRepository;
 import org.example.bogo.domain.template.repository.TemplateRepository;
 import org.example.bogo.global.APIResponse;
 import org.example.bogo.global.error.exception.BogoException;
-import org.example.bogo.global.security.userdetails.CustomUserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,11 +24,11 @@ public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final SearchRepository searchRepository;
-    private final ConstraitRepository constraitRepository;
+    private final ConstraintRepository constraintRepository;
 
     public APIResponse<?> create(AddTemplateRequest data) {
-        Constrait sharedConstrait = constraitRepository.findById(1L)
-                .orElseThrow(() -> new BogoException(TemplateErrorCode.CONSTRAIT_NOTFOUND));
+        Constraint sharedConstraint = constraintRepository.findById(1L)
+                .orElseThrow(() -> new BogoException(TemplateErrorCode.CONSTRAINT_NOTFOUND));
 
 
         Template newTemplate = Template.builder()
@@ -40,7 +36,7 @@ public class TemplateService {
                 .description(data.description())
                 .tone(data.tone())
                 .character(data.character())
-                .constrait(sharedConstrait)
+                .constraint(sharedConstraint)
                 .build();
 
         templateRepository.save(newTemplate);

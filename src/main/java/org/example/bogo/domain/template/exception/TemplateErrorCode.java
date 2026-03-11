@@ -10,7 +10,7 @@ public enum TemplateErrorCode implements ErrorCode {
 
     // 404
     TEMPLATE_NOTFOUND(HttpStatus.NOT_FOUND, "TEM_404", "템플릿이 존재하지 않습니다."),
-    CONSTRAIT_NOTFOUND(HttpStatus.NOT_FOUND, "COT_404", "템플릿 제약조건이 존재하지 않습니다.");
+    CONSTRAINT_NOTFOUND(HttpStatus.NOT_FOUND, "COT_404", "템플릿 제약조건이 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String code;

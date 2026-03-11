@@ -11,8 +11,8 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "constrait")
-public class Constrait {
+@Table(name = "constraint_tbl")
+public class Constraint {
 
     @Id
     private Long id;
@@ -25,14 +25,14 @@ public class Constrait {
     private Map<String, Object> questions;
 
     // 관리자가 이후에 수정할 제약조건 사항
-    public void setConstrait(String requiredFeature, Map<String, Object> questions) {
+    public void setConstraint(String requiredFeature, Map<String, Object> questions) {
         this.requiredFeature = Objects.requireNonNull(requiredFeature, "requiredFeature must not be null");
         this.questions = Objects.requireNonNull(questions, "questions must not be null");
     }
 
     // 초기에 한번만 사용될 제약조건 생성 builder
     @Builder
-    public Constrait(Long id, String requiredFeature, Map<String, Object> questions) {
+    public Constraint(Long id, String requiredFeature, Map<String, Object> questions) {
         this.id = 1L;
         this.requiredFeature = requiredFeature;
         this.questions = questions;
