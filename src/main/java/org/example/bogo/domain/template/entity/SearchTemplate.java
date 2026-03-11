@@ -1,5 +1,6 @@
 package org.example.bogo.domain.template.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -26,4 +27,13 @@ public class SearchTemplate {
 
     @Field(type = FieldType.Date)
     private LocalDateTime createdAt;
+
+    @Builder
+    public SearchTemplate(Long id, String title, Long creatorId, String description, LocalDateTime createdAt) {
+        this.id = id;
+        this.title = title;
+        this.creatorId = creatorId;
+        this.description = description;
+        this.createdAt = createdAt;
+    }
 }

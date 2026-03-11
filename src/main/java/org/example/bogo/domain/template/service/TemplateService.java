@@ -1,6 +1,8 @@
 package org.example.bogo.domain.template.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.bogo.domain.template.entity.Constraint;
 import org.example.bogo.domain.template.entity.SearchTemplate;
 import org.example.bogo.domain.template.entity.Template;
@@ -14,23 +16,25 @@ import org.example.bogo.global.APIResponse;
 import org.example.bogo.global.error.exception.BogoException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final SearchRepository searchRepository;
     private final ConstraintRepository constraintRepository;
 
+    @Transactional
     public APIResponse<?> create(AddTemplateRequest data) {
+        // 1. 공통 제약조건 조회
         Constraint sharedConstraint = constraintRepository.findById(1L)
                 .orElseThrow(() -> new BogoException(TemplateErrorCode.CONSTRAINT_NOTFOUND));
 
-
+        // 2. DB 저장
         Template newTemplate = Template.builder()
                 .name(data.name())
                 .description(data.description())
@@ -39,14 +43,28 @@ public class TemplateService {
                 .constraint(sharedConstraint)
                 .build();
 
-        templateRepository.save(newTemplate);
+        Template savedTemplate = templateRepository.save(newTemplate);
+
+        try {
+            SearchTemplate searchTemplate = SearchTemplate.builder()
+                    .id(savedTemplate.getId())
+                    .title(savedTemplate.getName()) // Template.name -> SearchTemplate.title 매핑
+                    .description(savedTemplate.getDescription())
+                    .createdAt(savedTemplate.getCreatedAt())
+                    .build();
+
+            searchRepository.save(searchTemplate);
+        } catch (Exception e) {
+            log.error("Failed to index template in Elasticsearch: {}", savedTemplate.getId(), e);
+        }
 
         return new APIResponse<>(
                 "OK",
-                "Template created successfully."
-                ,data.name()
+                "Template created successfully.",
+                data.name()
         );
     }
+
 
     public APIResponse<List<SearchDataResponse>> search(String keyword) {
         List<SearchTemplate> templateList = searchRepository.findByTitle(keyword);
