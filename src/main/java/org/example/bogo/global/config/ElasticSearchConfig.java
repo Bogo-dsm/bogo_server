@@ -13,10 +13,17 @@ public class ElasticSearchConfig extends ElasticsearchConfiguration {
     @Value("${spring.elasticsearch.uris:localhost:9200}") // yml 값을 읽고, 없으면 기본값 사용
     private String elasticsearchUri;
 
+    @Value("${spring.elasticsearch.username}")
+    private String username;
+
+    @Value("${spring.elasticsearch.password}")
+    private String password;
+
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
                 .connectedTo(elasticsearchUri)
+                .withBasicAuth(username, password)
                 .build();
     }
 }

@@ -50,7 +50,7 @@ public class AuthController {
     public ResponseEntity<APIResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest request) {
         TokenResponse tokenResponse = authService.login(request);
         APIResponse<TokenResponse> response =
-                new APIResponse<>("SUCCESS", "로그인 성공", tokenResponse);
+                new APIResponse<>("OK", "로그인 성공", tokenResponse);
         return ResponseEntity.ok().body(response);
     }
 }
