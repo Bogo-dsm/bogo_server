@@ -1,10 +1,11 @@
 package org.example.bogo.domain.template.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -26,11 +27,25 @@ public class Template {
     @Column(nullable = false, length = 50)
     private String tone;
 
+    // AI 프롬포팅용 요약
     @Lob
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String character;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "constraint_id", nullable = false)
-    private Constrait constraint;
+    private Constraint constraint;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Builder
+    public Template(String name, String description, String tone, String character, Constraint constraint) {
+        this.name = name;
+        this.description = description;
+        this.tone = tone;
+        this.character = character;
+        this.constraint = Objects.requireNonNull(constraint, "Constrait must not be null");
+    }
 }
