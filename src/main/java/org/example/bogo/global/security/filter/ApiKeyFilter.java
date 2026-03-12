@@ -1,4 +1,4 @@
-package org.example.bogo.global.security;
+package org.example.bogo.global.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

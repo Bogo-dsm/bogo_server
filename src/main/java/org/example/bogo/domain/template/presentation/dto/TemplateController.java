@@ -8,6 +8,7 @@ import org.example.bogo.domain.template.presentation.dto.response.SearchDataResp
 import org.example.bogo.domain.template.service.TemplateService;
 import org.example.bogo.global.APIResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/template")
 @RequiredArgsConstructor
+@Validated
 public class TemplateController {
 
     private final TemplateService templateService;

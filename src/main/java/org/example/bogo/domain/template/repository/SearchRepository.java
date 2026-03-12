@@ -6,6 +6,6 @@ import java.util.List;
 
 
 public interface SearchRepository extends ElasticsearchRepository<SearchTemplate, Long> {
-    List<SearchTemplate> findByTitle(String title);
+    List<SearchTemplate> findByTitleContaining(String title);
 
 }

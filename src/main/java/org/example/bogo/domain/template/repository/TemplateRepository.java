@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TemplateRepository extends JpaRepository<Template, Long> {
     List<Template> findAll();
+    List<Template> findByNameContainingIgnoreCase(String name);
 }
