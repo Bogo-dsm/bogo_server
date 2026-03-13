@@ -6,7 +6,7 @@ public record PostAnswerRequest(Long projectId,
                                 List<Answer> answers) {
 
     public record Answer(
-            int qId,
+            Long qId,
             String a
     ) {}
 }

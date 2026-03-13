@@ -20,6 +20,7 @@ import org.example.bogo.global.APIResponse;
 import org.example.bogo.global.error.exception.BogoException;
 import org.example.bogo.global.error.exception.GlobalErrorCode;
 import org.example.bogo.global.security.userdetails.CustomUserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -95,19 +96,34 @@ public class ProjectService {
         Project project = projectRepository.findById(data.projectId())
                 .orElseThrow(() -> new BogoException(ProjectErrorCode.PROJECT_NOTFOUND));
 
+        Long currentMemberId = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (!project.getMember().getId().equals(currentMemberId)) {
+            throw new BogoException(ProjectErrorCode.NOT_OWNER); // 또는 FORBIDDEN 관련 코드
+        }
 
-        Map<String, Object> answers = data.answers().stream()
-                        .collect(Collectors.toMap(
-                                answer -> String.valueOf(answer.qId()),
-                                answer -> (Object) answer.a()
-                        ));
-        project.updateAnswers(answers);
+        long distinctCount = data.answers().stream()
+                .map(PostAnswerRequest.Answer::qId)
+                .distinct()
+                .count();
+
+        if (distinctCount != data.answers().size()) {
+            throw new BogoException(ProjectErrorCode.DUPLICATE_QUESTION_ID);
+        }
+
+        // 2. Map 변환 (중복 해결 및 null 처리 추가)
+        Map<String, Object> answerMap = data.answers().stream()
+                .collect(Collectors.toMap(
+                        answer -> String.valueOf(answer.qId()), // Long -> String 변환
+                        answer -> answer.a() == null ? "" : answer.a(), // null 방어 로직
+                        (existing, replacement) -> replacement // 중복 키 발생 시 마지막 값 취함
+                ));
+        project.updateAnswers(answerMap);
         projectRepository.save(project);
 
         return new APIResponse<>(
                 "OK",
                 "successfully posted answers.",
-                answers
+                answerMap
         );
 
     }
