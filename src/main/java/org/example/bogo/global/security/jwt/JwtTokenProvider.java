@@ -37,7 +37,7 @@ public class JwtTokenProvider {
 
     public String generateAccessToken(Long memberId, String email, String role) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + normalizeToMillis(properties.getAccessTokenExpiration()));
+        Date expiry = new Date(now.getTime() + properties.getAccessTokenExpiration());
 
         return Jwts.builder()
                 .setSubject(String.valueOf(memberId))
@@ -52,7 +52,7 @@ public class JwtTokenProvider {
 
     public String generateRefreshToken(Long memberId, String email) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + normalizeToMillis(properties.getRefreshTokenExpiration())); // 예: 7일
+        Date expiry = new Date(now.getTime() + properties.getRefreshTokenExpiration()); // 예: 7일
 
         return Jwts.builder()
                 .setSubject(String.valueOf(memberId))
@@ -106,13 +106,5 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-    private long normalizeToMillis(long configuredValue) {
-        // 3600(초)처럼 작은 값이 들어오면 초 단위로 간주해 ms로 변환한다.
-        if (configuredValue > 0 && configuredValue < 100_000) {
-            return configuredValue * 1000L;
-        }
-        return configuredValue;
     }
 }
