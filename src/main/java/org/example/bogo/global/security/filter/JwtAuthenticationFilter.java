@@ -23,8 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
-        String token = resolveToken(authHeader);
+        String token = resolveToken(request);
         if (StringUtils.hasText(token)) {
             if (tokenProvider.validateToken(token)) {
                 SecurityContextHolder.getContext().setAuthentication(tokenProvider.getAuthentication(token));
@@ -34,16 +33,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String resolveToken(String authHeader) {
-        if (!StringUtils.hasText(authHeader)) {
+    private String resolveToken(HttpServletRequest request) {
+        String[] candidateHeaders = {"Authorization", "accessToken", "Access-Token", "X-Access-Token"};
+        for (String headerName : candidateHeaders) {
+            String headerValue = request.getHeader(headerName);
+            String extracted = extractBearerValue(headerValue);
+            if (StringUtils.hasText(extracted)) {
+                return extracted;
+            }
+        }
+        return null;
+    }
+
+    private String extractBearerValue(String headerValue) {
+        if (!StringUtils.hasText(headerValue)) {
             return null;
         }
 
-        String trimmed = authHeader.trim();
+        String trimmed = headerValue.trim();
+        if ((trimmed.startsWith("\"") && trimmed.endsWith("\""))
+                || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+            trimmed = trimmed.substring(1, trimmed.length() - 1).trim();
+        }
+
+        if (trimmed.regionMatches(true, 0, "Bearer:", 0, 7)) {
+            return trimmed.substring(7).trim();
+        }
         if (trimmed.regionMatches(true, 0, "Bearer ", 0, 7)) {
             return trimmed.substring(7).trim();
         }
-        // 일부 클라이언트가 Bearer prefix 없이 토큰만 보내는 경우도 허용한다.
+        // Bearer prefix 없이 raw token만 보내는 경우도 허용한다.
         return trimmed;
     }
 }

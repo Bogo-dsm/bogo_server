@@ -31,7 +31,7 @@ public class CustomUserDetails implements UserDetails {
                 member.getId(),
                 member.getEmail(),
                 member.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                List.of(new SimpleGrantedAuthority(member.getRole().toString()))
         );
     }
 

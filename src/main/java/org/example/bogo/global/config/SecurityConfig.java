@@ -53,6 +53,9 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/api/template/create"
                         ).permitAll()
+                        .requestMatchers(
+                                "/api/constraint/set"
+                        ).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 // 1. 기준이 되는 JwtFilter를 먼저 기본 필터(UsernamePasswordAuthenticationFilter) 앞에 등록

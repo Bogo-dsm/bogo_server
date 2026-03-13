@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.bogo.domain.member.entity.Member;
 import org.example.bogo.domain.template.entity.Template;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -23,7 +24,11 @@ public class Project {
     @Column(nullable = false, name = "title", length = 50)
     private String title;
 
+    @Column(length = 150)
+    private String description;
+
     @Column(name = "createdAt")
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -39,11 +44,15 @@ public class Project {
     private Template template;
 
     @Builder
-    public Project(String title, LocalDateTime createdAt, Map<String, Object> answers, Member member, Template template) {
+    public Project(String title, Map<String, Object> answers, String description,Member member, Template template) {
         this.title = title;
-        this.createdAt = createdAt;
         this.answers = answers;
+        this.description = description;
         this.member = member;
         this.template = template;
+    }
+
+    public void updateAnswers(Map<String, Object> answers) {
+        this.answers = answers;
     }
 }

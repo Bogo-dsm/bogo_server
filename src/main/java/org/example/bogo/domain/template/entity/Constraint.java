@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -22,17 +24,17 @@ public class Constraint {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false, columnDefinition = "json")
-    private Map<String, Object> questions;
+    private List<Map<String, Object>> questions;
 
     // 관리자가 이후에 수정할 제약조건 사항
-    public void setConstraint(String requiredFeature, Map<String, Object> questions) {
+    public void setConstraint(String requiredFeature, List<Map<String, Object>> questions) {
         this.requiredFeature = Objects.requireNonNull(requiredFeature, "requiredFeature must not be null");
         this.questions = Objects.requireNonNull(questions, "questions must not be null");
     }
 
     // 초기에 한번만 사용될 제약조건 생성 builder
     @Builder
-    public Constraint(Long id, String requiredFeature, Map<String, Object> questions) {
+    public Constraint(Long id, String requiredFeature, List<Map<String, Object>> questions) {
         this.id = 1L;
         this.requiredFeature = requiredFeature;
         this.questions = questions;
