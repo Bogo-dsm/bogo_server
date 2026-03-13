@@ -21,8 +21,8 @@ public class ConstraintService {
         constraintRepository.save(constraint);
 
         return new APIResponse<>(
-                "CREATED",
-                "Successfully created constraint",
+                "OK",
+                "Successfully sat constraint",
                 ""
         );
     }
