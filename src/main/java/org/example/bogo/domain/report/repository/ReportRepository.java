@@ -1,10 +1,13 @@
 package org.example.bogo.domain.report.repository;
 
 import org.example.bogo.domain.report.entity.Report;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReportRepository extends JpaRepository<Report, Long> {
-    Optional<Report> findFirstByProjectMemberId(Long memberId);
+    List<Report> findAllByProjectMemberId(Long memberId, Pageable pageable);
+    Optional<Report> findByProjectId(Long projectId);
 }
